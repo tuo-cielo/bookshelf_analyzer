@@ -41,13 +41,6 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-
-# Папка с файлами модели
-models/
-!models/__init__.py
-!models/analyzer.py
-
-# 3. БАЗЫ ДАННЫХ И ФАЙЛЫ ДАННЫХ
 *.db
 *.db-journal
 *.sqlite
