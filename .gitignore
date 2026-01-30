@@ -1,0 +1,152 @@
+# ============================================
+# BookShelf Analysis Project - Gitignore
+# ============================================
+
+# Кэш Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Виртуальные окружения
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+yolo_env/
+*.venv/
+python_env/
+virtual_env/
+
+# Распределение пакетов
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+
+# Папка с файлами модели
+models/
+!models/__init__.py
+!models/analyzer.py
+
+# 3. БАЗЫ ДАННЫХ И ФАЙЛЫ ДАННЫХ
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+bookshelf.db
+
+# Кэши и временные файлы
+*.tmp
+*.temp
+*.cache
+
+# 4. ЗАГРУЖЕННЫЕ ФАЙЛЫ И ОТЧЕТЫ
+# Загруженные пользователями файлы
+uploads/
+uploads/*
+
+# Сгенерированные отчеты
+reports/
+reports/*
+
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+*.swp
+*.swo
+*~
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+
+*.log
+*.log.*
+logs/
+log/
+
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+.pyre/
+
+# 9. КОНФИГУРАЦИОННЫЕ ФАЙЛЫ
+.env
+.env.local
+.env.development.local
+.env.production.local
+.env.test.local
+
+# Конфиги с паролями
+*.key
+*.pem
+*.crt
+
+# Основные файлы проекта
+!.gitignore
+!README.md
+!requirements.txt
+!app.py
+!database.py
+!report_generator.py
+
+# Статические файлы 
+!static/css/style.css
+!static/js/common.js
+!static/js/history.js
+!static/js/main.js
+!static/js/stats.js
+
+# Шаблоны
+!templates/base.html
+!templates/history.html
+!templates/index.html
+!templates/stats.html
+
+# Модули Python
+!models/__init__.py
+!models/analyzer.py
+
+
+
+

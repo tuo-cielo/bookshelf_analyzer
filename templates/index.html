@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Главная - Анализатор книжного шкафа{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4><i class="fas fa-upload"></i> Загрузка изображения</h4>
+            </div>
+            <div class="card-body">
+                <div class="upload-area" id="uploadArea">
+                    <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                    <p>Перетащите изображение сюда или нажмите для выбора</p>
+                    <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                    <button class="btn btn-primary mt-3" onclick="document.getElementById('imageInput').click()">
+                        Выбрать файл
+                    </button>
+                </div>
+                
+                <div class="camera-section mt-4">
+                    <h5>Или используйте камеру:</h5>
+                    <div class="camera-container">
+                        <video id="cameraPreview" autoplay playsinline style="display: none;"></video>
+                        <canvas id="cameraCanvas" style="display: none;"></canvas>
+                        <div class="camera-controls">
+                            <button class="btn btn-success" id="startCameraBtn" onclick="startCamera()">
+                                <i class="fas fa-camera"></i> Включить камеру
+                            </button>
+                            <button class="btn btn-warning" id="captureBtn" onclick="captureImage()" style="display: none;">
+                                <i class="fas fa-camera-retro"></i> Сделать снимок
+                            </button>
+                            <button class="btn btn-danger" id="stopCameraBtn" onclick="stopCamera()" style="display: none;">
+                                <i class="fas fa-stop"></i> Выключить камеру
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <button class="btn btn-lg btn-success" id="analyzeBtn" onclick="analyzeImage()" disabled>
+                        <i class="fas fa-brain"></i> Анализировать изображение
+                    </button>
+                    <div class="spinner-border text-primary ms-3" id="loadingSpinner" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h4><i class="fas fa-chart-bar"></i> Результаты анализа</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Оригинальное изображение:</h5>
+                        <img id="originalImage" class="img-fluid rounded" src="" alt="Оригинал" style="display: none;">
+                        <div id="noOriginal" class="text-muted">Изображение не загружено</div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Результат анализа:</h5>
+                        <img id="processedImage" class="img-fluid rounded" src="" alt="Результат" style="display: none;">
+                        <div id="noProcessed" class="text-muted">Результаты будут здесь</div>
+                    </div>
+                </div>
+                
+                <div class="mt-4" id="resultsSection" style="display: none;">
+                    <h5>Статистика:</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Всего книг:</span>
+                                    <span class="badge bg-primary rounded-pill" id="totalBooks">0</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Количество полок:</span>
+                                    <span class="badge bg-info rounded-pill" id="shelfCount">0</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Среднее заполнение:</span>
+                                    <span class="badge bg-success rounded-pill" id="avgFill">0%</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Время обработки:</span>
+                                    <span class="badge bg-secondary rounded-pill" id="processingTime">0с</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6>Заполнение по полкам:</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div id="shelfFillChart"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4><i class="fas fa-file-alt"></i> Экспорт отчетов</h4>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-danger" onclick="generateReport('pdf')" id="pdfBtn" disabled>
+                        <i class="fas fa-file-pdf"></i> Создать PDF отчет
+                    </button>
+                    <button class="btn btn-success" onclick="generateReport('excel')" id="excelBtn" disabled>
+                        <i class="fas fa-file-excel"></i> Создать Excel отчет
+                    </button>
+                    <button class="btn btn-secondary" onclick="generateReport('json')" id="jsonBtn" disabled>
+                        <i class="fas fa-file-code"></i> Создать JSON отчет
+                    </button>
+                </div>
+                
+                <div class="mt-4">
+                    <h5>Быстрые действия:</h5>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-primary" onclick="clearAll()">
+                            <i class="fas fa-trash"></i> Очистить текущий анализ
+                        </button>
+                        <button class="btn btn-outline-info" onclick="viewHistory()">
+                            <i class="fas fa-history"></i> Просмотреть историю
+                        </button>
+                        <button class="btn btn-outline-success" onclick="showStats()">
+                        <i class="fas fa-chart-line"></i> Общая статистика
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header bg-success text-white">
+                <h4><i class="fas fa-info-circle"></i> Информация о системе</h4>
+            </div>
+            <div class="card-body">
+                <h6>Используемые технологии:</h6>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check text-success"></i> Flask - веб-фреймворк</li>
+                    <li><i class="fas fa-check text-success"></i> PyTorch - нейронные сети</li>
+                    <li><i class="fas fa-check text-success"></i> YOLO - детектирование объектов</li>
+                    <li><i class="fas fa-check text-success"></i> OpenCV - обработка изображений</li>
+                    <li><i class="fas fa-check text-success"></i> SQLite - база данных</li>
+                </ul>
+                
+                <h6 class="mt-3">Функциональность:</h6>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-book text-primary"></i> Детектирование книг</li>
+                    <li><i class="fas fa-layer-group text-primary"></i> Определение полок</li>
+                    <li><i class="fas fa-chart-pie text-primary"></i> Анализ заполнения</li>
+                    <li><i class="fas fa-download text-primary"></i> Экспорт отчетов</li>
+                    <li><i class="fas fa-history text-primary"></i> История анализов</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header bg-secondary text-white">
+                <h4><i class="fas fa-chart-line"></i> Общая статистика</h4>
+            </div>
+            <div class="card-body">
+                <div id="globalStats">
+                    <p class="text-muted">Загрузка статистики...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

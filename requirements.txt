@@ -1,0 +1,14 @@
+Flask
+Flask-SQLAlchemy
+Flask-CORS
+torch == 2.9.0
+torchvision
+ultralytics
+opencv-python
+Pillow
+numpy == 2.2.0
+pandas
+reportlab
+openpyxl
+matplotlib
+scikit-learn
