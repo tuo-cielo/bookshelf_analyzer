@@ -2,14 +2,14 @@
 # BookShelf Analysis Project - Gitignore
 # ============================================
 
-# Кэш Python
+
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
 
-# Виртуальные окружения
+
 .venv/
 venv/
 env/
@@ -21,7 +21,7 @@ yolo_env/
 python_env/
 virtual_env/
 
-# Распределение пакетов
+
 build/
 develop-eggs/
 dist/
@@ -47,17 +47,16 @@ MANIFEST
 *.sqlite3
 bookshelf.db
 
-# Кэши и временные файлы
+
 *.tmp
 *.temp
 *.cache
 
-# 4. ЗАГРУЖЕННЫЕ ФАЙЛЫ И ОТЧЕТЫ
-# Загруженные пользователями файлы
+
 uploads/
 uploads/*
 
-# Сгенерированные отчеты
+
 reports/
 reports/*
 
@@ -103,19 +102,19 @@ dmypy.json
 
 .pyre/
 
-# 9. КОНФИГУРАЦИОННЫЕ ФАЙЛЫ
+
 .env
 .env.local
 .env.development.local
 .env.production.local
 .env.test.local
 
-# Конфиги с паролями
+
 *.key
 *.pem
 *.crt
 
-# Основные файлы проекта
+
 !.gitignore
 !README.md
 !requirements.txt
@@ -123,20 +122,20 @@ dmypy.json
 !database.py
 !report_generator.py
 
-# Статические файлы 
+
 !static/css/style.css
 !static/js/common.js
 !static/js/history.js
 !static/js/main.js
 !static/js/stats.js
 
-# Шаблоны
+
 !templates/base.html
 !templates/history.html
 !templates/index.html
 !templates/stats.html
 
-# Модули Python
+
 !models/__init__.py
 !models/analyzer.py
 
