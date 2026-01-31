@@ -303,7 +303,7 @@ class ReportGenerator:
                 elements.append(shelf_table)
                 elements.append(Spacer(1, 20))
             
-            # Визуализация (если есть)
+            # Визуализация
             if processed_image_path and os.path.exists(processed_image_path):
                 elements.append(Paragraph("Analysis Visualization", self.styles['CustomHeading2']))
                 
@@ -341,7 +341,7 @@ class ReportGenerator:
             
             elements.append(Paragraph(conclusion_text, self.styles['CustomNormal']))
             
-            # Подвал
+          
             elements.append(Spacer(1, 30))
             footer_text = f"Report generated on {datetime.now().strftime('%Y-%m-%d %H:%M')}"
             elements.append(Paragraph(footer_text, 
@@ -366,7 +366,7 @@ class ReportGenerator:
     def generate_excel_report(self, input_data: dict,
                             include_multiple: list[dict] = None) -> str:
         try:
-            # Подготавливаем данные (универсальный метод)
+            # Подготавливаем данные
             analysis_data = self._prepare_analysis_data(input_data)
             
             timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -408,7 +408,6 @@ class ReportGenerator:
                 shelf_counts = analysis_data.get('statistics', {}).get('book_distribution', {}).get('shelf_counts', [])
                 
                 if fill_percentages:
-                    # Если нет shelf_counts, создаем на основе fill_percentages
                     if not shelf_counts:
                         total_books = analysis_data.get('statistics', {}).get('total_books', 0)
                         if total_books > 0:
@@ -429,7 +428,7 @@ class ReportGenerator:
                     df_shelves = pd.DataFrame(shelf_data)
                     df_shelves.to_excel(writer, sheet_name='Shelf Data', index=False)
                 
-                # История анализов (если предоставлена)
+                # История анализов
                 if include_multiple:
                     history_data = []
                     for record in include_multiple:
@@ -447,7 +446,7 @@ class ReportGenerator:
                     df_history = pd.DataFrame(history_data)
                     df_history.to_excel(writer, sheet_name='Analysis History', index=False)
                 
-                # Сводная статистика (если есть несколько анализов)
+                # Сводная статистика
                 if include_multiple and len(include_multiple) > 1:
                     summary_data = {
                         'Total Analyses': len(include_multiple),
@@ -475,7 +474,7 @@ class ReportGenerator:
     
     def generate_json_report(self, input_data: dict) -> str:
         try:
-            # Подготавливаем данные (универсальный метод)
+            # Подготавливаем данные
             analysis_data = self._prepare_analysis_data(input_data)
             
             timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
